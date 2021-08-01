@@ -1,6 +1,10 @@
 const express = require('express')
+const exphbs = require('express-handlebars')
 const app = express()
 const port = 3000
+
+app.engine('handlebars' , exphbs({defaultLayout : 'main'}))
+app.set('view engine', 'handlebars')
 
 app.use((req, res, next) => {
     const start = new Date()
@@ -19,19 +23,23 @@ app.use((req, res, next) => {
 })
 
 app.get('/',(req, res) => {
-  res.send('列出全部 Todo')
+  const text = '列出全部 Todo'
+  res.render('index' ,{ text })
 })
 
 app.get('/new', (req, res) => {
-  res.send('新增 Todo 頁面')
+  const text = '新增 Todo 頁面'
+  res.render('index', { text})
 })
  
 app.get('/:id', (req, res) => {
-  res.send('顯示一筆 Todo')
+  const text = '顯示一筆 Todo'
+  res.render('index', { text })
 })
 
 app.post('/', (req, res) => {
-  res.send('新增一筆  Todo')
+  const text = '新增一筆  Todo'
+  res.render('index', { text })
 })
 
 app.listen(port, () => {
