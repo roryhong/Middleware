@@ -3,9 +3,18 @@ const app = express()
 const port = 3000
 
 app.use((req, res, next) => {
-    const date = new Date().toLocaleString().replace(/T/, ' ').replace(/\..+/, '')
-    const methodFrom = req.method + ' ' + 'from'  + ' ' + req.originalUrl
-    console.log(date + '|' + methodFrom)
+    const start = new Date()
+    const date = start.toLocaleString().replace(/T/, ' ').replace(/\..+/, '')
+    
+
+    res.on('finish', () => {
+      const end = new Date()
+
+      const methodFrom = req.method + ' ' + 'from'  + ' ' + req.originalUrl
+      const time = `total time : ${end - start} ms`
+      console.log(date + ' | ' + methodFrom + ' | ' +  time)
+    })
+    
     next()
 })
 
@@ -25,6 +34,6 @@ app.post('/', (req, res) => {
   res.send('新增一筆  Todo')
 })
 
-app.listen(port, i ,() => {
+app.listen(port, () => {
   console.log(`App running on port ${port}`)
 })
